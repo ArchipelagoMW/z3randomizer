@@ -98,7 +98,7 @@ if __name__ == '__main__':
             prints = asar_prints()
             for p in prints:
                 print(p)
-            write_lzma(generate_patch(old_rom_data, new_rom_data), "basepatch.bmbp")
+            write_lzma(generate_patch(old_rom_data, new_rom_data), "basepatch.apbp")
         else:
             errors = asar_errors()
             print("\nErrors: " + str(len(errors)))
