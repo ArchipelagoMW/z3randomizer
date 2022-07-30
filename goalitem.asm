@@ -31,7 +31,7 @@ CheckGanonVulnerability:
 		LDA $7EF374 : AND.b #$07 : CMP #$07 : BNE .fail ; require all pendants
 		LDA $7EF37A : AND.b #$7F : CMP #$7F : BNE .fail ; require all crystals
 		LDA $7EF3C5 : CMP.b #$03 : !BLT .fail ; require post-aga world state
-		LDA $7EF2DB : AND.b #$20 : CMP #$20 : BNE .fail ; require aga2 defeated (pyramid hole open)
+		LDA $7EF01B : BIT.b #$08 : BEQ .fail ; require aga2 defeated (pyramid hole open)
 		BRA .success
 	+ : CMP #$04 : BNE +
 		;#$04 = Require Crystals
@@ -40,7 +40,7 @@ CheckGanonVulnerability:
 	+ : CMP #$03 : BNE +
 		;#$03 = Require Crystals and Aga 2
 		JSL CheckEnoughCrystalsForGanon : !BLT .fail ; require specified number of crystals
-		LDA $7EF2DB : AND.b #$20 : CMP #$20 : BNE .fail ; require aga2 defeated (pyramid hole open)
+		LDA $7EF01B : BIT.b #$08 : BEQ .fail ; require aga2 defeated (pyramid hole open)
 		BRA .success
 	+ : CMP #$05 : BNE +
 		;#$05 = Require Goal Items
