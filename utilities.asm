@@ -152,8 +152,8 @@ RTL
 	db $FD, $0D ; Progressive Armor & Gloves
 	db $FA, $FB ; RNG Single & Multi
 	db $F8, $F8 ; Progressive Bow x2
-	db $FF, $FF, $FF, $FF ; Unused
-	db $49, $4A, $49 ; Goal Item Single, Multi & Alt Multi
+	db $FF, $FF, $FF ; Unused
+	db $4A, $49, $4A, $49 ; Alt Power Star, Triforce, Power Star, Triforce Piece
 	db $39, $39, $39 ; Server Request F0, F1, F2
 
 	;7x
@@ -296,8 +296,8 @@ RTL
 	db $FD, $FE, $FF, $FC ; Progressive Sword, Shield, Armor & Gloves
 	db $FA, $FB ; RNG Single & Multi
 	db $F8, $F8 ; Progressive Bow
-	db $00, $00, $00, $00 ; Unused
-	db $08, $08, $08 ; Goal Item Single, Multi & Alt Multi
+	db $00, $00, $00 ; Unused
+	db $08, $08, $02, $08 ; Alt Power Star, Triforce, Power Star, Triforce Piece
 	db $04, $04, $04 ; Server Request F0, F1, F2
 	
 	db $08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $08, $08 ; Free Map
