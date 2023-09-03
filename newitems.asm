@@ -29,10 +29,10 @@
 ; #$63 - RNG Pool Item (Multi)
 ; #$64 - Progressive Bow
 ; #$65 - Progressive Bow
-; #$69 - Alt Power Star
-; #$6A - Goal Item (Triforce)
-; #$6B - Power Star
-; #$6C - Goal Item (Triforce Piece)
+; #$69 - Gold Power Star
+; #$6A - Triforce
+; #$6B - Silver Power Star
+; #$6C - Triforce Piece
 ; #$6D - Server Request F0 (Hearts / Powder / Mushroom / Bonkable)
 ; #$6E - Server Request F1 (NPC)
 ; #$6F - Server Request F2 (Tablets / Pedestal)
@@ -327,12 +327,14 @@ AddReceivedItemExpandedGetItem:
 		BRL .done
 	+ CMP.b #$65 : BNE + ; Progressive Bow
 		BRL .done
-	+ CMP.b #$6A : BNE + ; Goal Collectable (Single/Triforce)
+	+ CMP.b #$69 : BNE + ; Gold Power Star
+		BRA .multi_collect
+	+ CMP.b #$6A : BNE + ; Triforce
 		JSL.l ActivateGoal
 		BRL .done
-	+ CMP.b #$6B : BNE + ; Goal Collectable (Multi/Power Star)
+	+ CMP.b #$6B : BNE + ; Silver Power Star
 		BRA .multi_collect
-	+ CMP.b #$6C : BNE + ; Goal Collectable (Multi/Power Star) Alternate Graphic
+	+ CMP.b #$6C : BNE + ; Triforce Piece
 		.multi_collect
 		REP #$20
 		LDA GoalItemRequirement : BEQ ++
@@ -623,7 +625,7 @@ AddReceivedItemExpanded:
 	db -4, -4 ; RNG Single & Multi
 	db -4, -4 ; Progressive Bow x2
 	db -4, -4, -4 ; Unused
-	db -4, -4, -4, -4 ; Alt Power Star, Triforce, Power Star, Triforce Piece
+	db -4, -4, -4, -4 ; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	db -4, -4, -4 ; Unused
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Map
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Compass
@@ -663,7 +665,7 @@ AddReceivedItemExpanded:
 	db  0, 0 ; RNG Single & Multi
 	db  0, 0 ; Progressive Bow x2
 	db  0, 0, 0 ; Unused
-	db  0, 0, 0, 0 ; Alt Power Star, Triforce, Power Star, Triforce Piece
+	db  0, 0, 0, 0 ; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	db  0, 0, 0 ; Unused
 	db  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; Free Map
 	db  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; Free Compass
@@ -705,7 +707,7 @@ AddReceivedItemExpanded:
 	db $FF, $FF ; RNG Single & Multi
 	db $FF, $FF ; Progressive Bow x2
 	db $FF, $FF, $FF ; Unused
-	db $4A, $49, $4A, $49; Alt Power Star, Triforce, Power Star, Triforce Piece
+	db $4A, $49, $4A, $49; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	db $FF, $FF, $FF ; Unused
 	db $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21 ; Free Map
 	db $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16 ; Free Compass
@@ -751,7 +753,7 @@ AddReceivedItemExpanded:
 	db $02, $02 ; RNG Single & Multi
 	db $02, $02 ; Progressive Bow x2
 	db $02, $02, $02 ; Unused
-	db $02, $02, $02, $02 ; Alt Power Star, Triforce, Power Star, Triforce Piece
+	db $02, $02, $02, $02 ; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	db $02, $02, $02 ; Unused
 	db $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02 ; Free Map
 	db $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02 ; Free Compass
@@ -793,7 +795,7 @@ AddReceivedItemExpanded:
 	db  $FF, $FF ; RNG Single & Multi
 	db  0, 0 ; Progressive Bow
 	db  0, 0, 0 ; Unused
-	db  4, 4, 4, 4 ; Alt Power Star, Triforce, Power Star, Triforce Piece
+	db  4, 4, 1, 4 ; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	db  0, 0, 0 ; Unused
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Free Map
 	db  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ; Free Compass
@@ -835,7 +837,7 @@ AddReceivedItemExpanded:
 	dw $F36A, $F36A ; RNG Single & Multi
 	dw $F340, $F340 ; Progressive Bow x2
 	dw $F36A, $F36A, $F36A ; Unused
-	dw $F36A, $F36A, $F36A, $F36A ; Alt Power Star, Triforce, Power Star, Triforce Piece
+	dw $F36A, $F36A, $F36A, $F36A ; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	dw $F36A, $F36A, $F36A ; Unused
 	dw $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A ; Free Map
 	dw $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A ; Free Compass
@@ -879,7 +881,7 @@ AddReceivedItemExpanded:
 	db $FF, $FF ; RNG Single & Multi
 	db $FF, $FF ; Progressive Bow
 	db $FF, $FF, $FF ; Unused
-	db $FF, $FF, $FF, $FF ; Alt Power Star, Triforce, Power Star, Triforce Piece
+	db $FF, $FF, $FF, $FF ; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	db $FF, $FF, $FF ; Unused
 	db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Free Map
 	db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Free Compass
@@ -965,7 +967,7 @@ Link_ReceiveItemAlternatesExpanded:
 	db -1, -1 ; RNG Single & Multi
 	db -1, -1 ; Progressive Bow
 	db -1, -1, -1 ; Unused
-	db -1, -1, -1, -1 ; Alt Power Star, Triforce, Power Star, Triforce Piece
+	db -1, -1, -1, -1 ; Gold Power Star, Triforce, Silver Power Star, Triforce Piece
 	db -1, -1, -1 ; Unused
 	db -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ; Free Map
 	db -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ; Free Compass

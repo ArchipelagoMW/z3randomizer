@@ -1326,9 +1326,9 @@ db $04
 ;64:Progressive Bow
 ;65:Progressive Bow
 
-;69:Alt Power Star
+;69:Gold Power Star
 ;6A:Goal Item (Triforce)
-;6B:Power Star
+;6B:Silver Power Star
 ;6C:Goal Item (Triforce Piece)
 
 ;6D:Server Request Item
