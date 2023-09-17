@@ -8,6 +8,8 @@ IncrementBombs:
     LDA !BOMB_UPGRADES ; get bomb upgrades
 	!ADD.l StartingMaxBombs : DEC
 
+    CMP.b #$FF : BEQ + ; if max bombs is 0, it underflows to $FF. Don't add bombs
+
     CMP !BOMB_CURRENT
 	
 	!BLT +
