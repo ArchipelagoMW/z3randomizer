@@ -253,7 +253,9 @@ IncrementSmallKeysNoPrimary:
 RTL
 ;--------------------------------------------------------------------------------
 DecrementSmallKeys:
-	STA $7EF36F ; thing we wrote over, write small key count
+	LDA.b $30EFFE : BNE + ; if reusable small keys, do not decrement
+		STA $7EF36F ; thing we wrote over, write small key count
+	+
 	JSL.l UpdateKeys
 RTL
 ;--------------------------------------------------------------------------------
