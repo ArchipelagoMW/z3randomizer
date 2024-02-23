@@ -29,9 +29,10 @@
 ; #$63 - RNG Pool Item (Multi)
 ; #$64 - Progressive Bow
 ; #$65 - Progressive Bow
-; #$6A - Goal Item (Single/Triforce)
-; #$6B - Goal Item (Multi/Power Star)
-; #$6C - Goal Item (Multi/Triforce Piece)
+; #$69 - Power Star (Silver)
+; #$6A - Goal Item (Triforce)
+; #$6B - Power Star (Gold)
+; #$6C - Goal Item (Triforce Piece)
 ; #$6D - Server Request F0 (Hearts / Powder / Mushroom / Bonkable)
 ; #$6E - Server Request F1 (NPC)
 ; #$6F - Server Request F2 (Tablets / Pedestal)
@@ -277,7 +278,7 @@ AddReceivedItemExpandedGetItem:
 	+ CMP.b #$57 : BNE + ; Programmable Object 3
 		%ProgrammableItemLogic(3)
 		BRL .done
-	+ CMP.b #$58 : BNE + ; Upgrade-Only Sivler Arrows
+	+ CMP.b #$58 : BNE + ; Upgrade-Only Silver Arrows
 		LDA.l SilverArrowsUseRestriction : BNE +++
 		LDA.l SilverArrowsAutoEquip : AND.b #$01 : BEQ +++
 			LDA $7EF340 : BEQ ++ : CMP.b #$03 : !BGE ++
@@ -326,12 +327,14 @@ AddReceivedItemExpandedGetItem:
 		BRL .done
 	+ CMP.b #$65 : BNE + ; Progressive Bow
 		BRL .done
-	+ CMP.b #$6A : BNE + ; Goal Collectable (Single/Triforce)
+	;+ CMP.b #$69 : BNE + ; Power Star (Silver)
+	;	BRA .multi_collect
+	+ CMP.b #$6A : BNE + ; Goal Collectable (Triforce)
 		JSL.l ActivateGoal
 		BRL .done
-	+ CMP.b #$6B : BNE + ; Goal Collectable (Multi/Power Star)
+	+ CMP.b #$6B : BNE + ; Power Star (Gold)
 		BRA .multi_collect
-	+ CMP.b #$6C : BNE + ; Goal Collectable (Multi/Power Star) Alternate Graphic
+	+ CMP.b #$6C : BNE + ; Goal Collectable (Triforce Piece)
 		.multi_collect
 		REP #$20
 		LDA GoalItemRequirement : BEQ ++
@@ -614,15 +617,15 @@ AddReceivedItemExpanded:
 	db -5 ; Master Sword (Safe)
 	db -4, -4, -4, -4 ; +5/+10 Bomb Arrows
 	db -4, -4, -4 ; 3x Programmable Item
-	db -4 ; Upgrade-Only Sivler Arrows
+	db -4 ; Upgrade-Only Silver Arrows
 	db -4 ; 1 Rupoor
 	db -4 ; Null Item
 	db -4, -4, -4 ; Red, Blue & Green Clocks
 	db -4, -4, -4, -4 ; Progressive Sword, Shield, Armor & Gloves
 	db -4, -4 ; RNG Single & Multi
 	db -4, -4 ; Progressive Bow x2
-	db -4, -4, -4, -4 ; Unused
-	db -4, -4, -4 ; Goal Item Single, Multi & Alt Multi
+	db -4, -4, -4 ; Unused
+	db -4, -4, -4, -4 ; Silver Star, Triforce, Gold Star, Triforce Piece
 	db -4, -4, -4 ; Unused
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Map
 	db -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4 ; Free Compass
@@ -654,15 +657,15 @@ AddReceivedItemExpanded:
 	db  4 ; Master Sword (Safe)
 	db  0,  0,  0,  0 ; +5/+10 Bomb Arrows
 	db  0,  0,  0 ; 3x Programmable Item
-	db  0 ; Upgrade-Only Sivler Arrows
+	db  0 ; Upgrade-Only Silver Arrows
 	db  4 ; 1 Rupoor
 	db  0 ; Null Item
 	db  0, 0, 0 ; Red, Blue & Green Clocks
 	db  0, 0, 0, 0 ; Progressive Sword, Shield, Armor & Gloves
 	db  0, 0 ; RNG Single & Multi
 	db  0, 0 ; Progressive Bow x2
-	db  0, 0, 0, 0 ; Unused
-	db  0, 0, 0 ; Goal Item Single, Multi & Alt Multi
+	db  0, 0, 0 ; Unused
+	db  0, 0, 0, 0 ; Silver Star, Triforce, Gold Star, Triforce Piece
 	db  0, 0, 0 ; Unused
 	db  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; Free Map
 	db  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; Free Compass
@@ -696,15 +699,15 @@ AddReceivedItemExpanded:
 	db $18 ; Master Sword (Safe)
 	db $3D, $3E, $3F, $40 ; +5/+10 Bomb Arrows
 	db $00, $00, $00 ; 3x Programmable Item
-	db $41 ; Upgrade-Only Sivler Arrows
+	db $41 ; Upgrade-Only Silver Arrows
 	db $24 ; 1 Rupoor
 	db $47 ; Null Item
 	db $48, $48, $48 ; Red, Blue & Green Clocks
 	db $FF, $FF, $04, $0D ; Progressive Sword, Shield, Armor & Gloves
 	db $FF, $FF ; RNG Single & Multi
 	db $FF, $FF ; Progressive Bow x2
-	db $FF, $FF, $FF, $FF ; Unused
-	db $49, $4A, $49 ; Goal Item Single, Multi & Alt Multi
+	db $FF, $FF, $FF ; Unused
+	db $4A, $49, $4A, $49 ; Silver Star, Triforce, Gold Star, Triforce Piece
 	db $FF, $FF, $FF ; Unused
 	db $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21, $21 ; Free Map
 	db $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16, $16 ; Free Compass
@@ -742,15 +745,15 @@ AddReceivedItemExpanded:
 	db $00 ; Master Sword (Safe)
 	db $02, $02, $02, $02 ; +5/+10 Bomb Arrows
 	db $02, $02, $02 ; 3x Programmable Item
-	db $02 ; Upgrade-Only Sivler Arrows
+	db $02 ; Upgrade-Only Silver Arrows
 	db $00 ; 1 Rupoor
 	db $02 ; Null Item
 	db $02, $02, $02 ; Red, Blue & Green Clocks
 	db $02, $02, $02, $02 ; Progressive Sword, Shield, Armor & Gloves
 	db $02, $02 ; RNG Single & Multi
 	db $02, $02 ; Progressive Bow x2
-	db $02, $02, $02, $02 ; Unused
-	db $02, $02, $02 ; Goal Item Single, Multi & Alt Multi
+	db $02, $02, $02 ; Unused
+	db $02, $02, $02, $02 ; Silver Star, Triforce, Gold Star, Triforce Piece
 	db $02, $02, $02 ; Unused
 	db $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02 ; Free Map
 	db $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02, $02 ; Free Compass
@@ -784,15 +787,15 @@ AddReceivedItemExpanded:
 	db  5 ; Master Sword (Safe)
 	db  4,  4,  4,  4 ; +5/+10 Bomb Arrows
 	db  4,  4,  4 ; 3x Programmable Item
-	db  1 ; Upgrade-Only Sivler Arrows
+	db  1 ; Upgrade-Only Silver Arrows
 	db  3 ; 1 Rupoor
 	db  1 ; Null Item
 	db  1, 2, 4 ; Red, Blue & Green Clocks
 	db  $FF, $FF, $FF, $FF ; Progressive Sword, Shield, Armor & Gloves
 	db  $FF, $FF ; RNG Single & Multi
 	db  0, 0 ; Progressive Bow
-	db  0, 0, 0, 0 ; Unused
-	db  4, 4, 4 ; Goal Item Single, Multi & Alt Multi
+	db  0, 0, 0 ; Unused
+	db  1, 4, 4, 4 ; Silver Star, Triforce, Gold Star, Triforce Piece
 	db  0, 0, 0 ; Unused
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Free Map
 	db  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ; Free Compass
@@ -826,15 +829,15 @@ AddReceivedItemExpanded:
 	dw $F359 ; Master Sword (Safe)
 	dw $F375, $F375, $F376, $F376 ; +5/+10 Bomb Arrows
 	dw $F41A, $F41C, $F41E ; 3x Programmable Item
-	dw $F340 ; Upgrade-Only Sivler Arrows
+	dw $F340 ; Upgrade-Only Silver Arrows
 	dw $F360 ; 1 Rupoor
 	dw $F36A ; Null Item
 	dw $F454, $F454, $F454 ; Red, Blue & Green Clocks
 	dw $F359, $F35A, $F35B, $F354 ; Progressive Sword, Shield, Armor & Gloves
 	dw $F36A, $F36A ; RNG Single & Multi
 	dw $F340, $F340 ; Progressive Bow x2
-	dw $F36A, $F36A, $F36A, $F36A ; Unused
-	dw $F36A, $F36A, $F36A ; Goal Item Single, Multi & Alt Multi
+	dw $F36A, $F36A, $F36A ; Unused
+	dw $F36A, $F36A, $F36A, $F36A ; Silver Star, Triforce, Gold Star, Triforce Piece
 	dw $F36A, $F36A, $F36A ; Unused
 	dw $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A ; Free Map
 	dw $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A, $F36A ; Free Compass
@@ -870,15 +873,15 @@ AddReceivedItemExpanded:
 	db $02 ; Master Sword (Safe)
 	db $FF, $FF, $FF, $FF ; +5/+10 Bomb Arrows
 	db $FF, $FF, $FF ; 3x Programmable Item
-	db $FF ; Upgrade-Only Sivler Arrows
+	db $FF ; Upgrade-Only Silver Arrows
 	db $FF ; 1 Rupoor
 	db $FF ; Null Item
 	db $FF, $FF, $FF ; Red, Blue & Green Clocks
 	db $FF, $FF, $FF, $FF ; Progressive Sword, Shield, Armor & Gloves
 	db $FF, $FF ; RNG Single & Multi
 	db $FF, $FF ; Progressive Bow
-	db $FF, $FF, $FF, $FF ; Unused
-	db $FF, $FF, $FF ; Goal Item Single, Multi & Alt Multi
+	db $FF, $FF, $FF ; Unused
+	db $FF, $FF, $FF, $FF ; Silver Star, Triforce, Gold Star, Triforce Piece
 	db $FF, $FF, $FF ; Unused
 	db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Free Map
 	db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Free Compass
@@ -963,9 +966,9 @@ Link_ReceiveItemAlternatesExpanded:
 	db -1, -1, -1, -1 ; Progressive Sword, Shield, Armor & Gloves
 	db -1, -1 ; RNG Single & Multi
 	db -1, -1 ; Progressive Bow
-	db -1, -1, -1, -1 ; Unused
-	db -1, -1 ; Goal Item Single, Multi & Alt Multi
-	db -1, -1, -1, -1 ; Unused
+	db -1, -1, -1 ; Unused
+	db -1, -1, -1, -1 ; Silver Star, Triforce, Gold Star, Triforce Piece
+	db -1, -1, -1 ; Unused
 	db -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ; Free Map
 	db -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ; Free Compass
 	db -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ; Free Big Key
