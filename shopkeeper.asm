@@ -682,8 +682,10 @@ Shopkeeper_BuyItem:
 		LDA !SHOP_TYPE : AND.b #$80 : BEQ + : BRL .buy : + ; don't charge if this is a take-any
 
 		.custom_price
-		LDA !SHOP_INVENTORY+2, X : AND.b #$80 : BEQ .price_is_rupees ; i honestly can't think of a better way to do this block because i haven't done asm in like 8 months
-		 	LDA !SHOP_INVENTORY+2, X : AND.b #$7F : CMP.b #$09 : BNE + ; 09 specifically is item
+		LDA !SHOP_INVENTORY+2, X : AND.b #$80 : BNE .price_is_not_rupees ; i honestly can't think of a better way to do this block because i haven't done asm in like 8 months
+		 		JMP .price_is_rupees
+			.price_is_not_rupees
+			LDA !SHOP_INVENTORY+2, X : AND.b #$7F : CMP.b #$09 : BNE + ; 09 specifically is item
 				LDA !SHOP_INVENTORY+1, X : CMP.b $0303 : BNE .gotItem
 					BRL .cant_afford
 				.gotItem ; hand it over??  not logic friendly
@@ -699,13 +701,16 @@ Shopkeeper_BuyItem:
 				; store shop index, get resource offset (X), load val, pop shop index, cmp val to shop_price...
 				PHX : TAX : LDA ResourceOffset, X : TAX : TAY : LDA $7EF300, X ; fumble around with our resource value and price, sub value then put back into RAM
 				PLX : CMP !SHOP_INVENTORY+1,X : BMI + ; if resource is less than value, skip
+				; If hearts, ensure hearts are greater than the price
+				BNE .notEqual : CPY #$6D : BEQ .cant_afford
+				.notEqual
 				; subtract and store, store (x), store val back to address
 				; if X is heart containers, set ordinary hearts
-				!SUB !SHOP_INVENTORY+1,X : PHX : TYX : STA $7EF300, X 
+				!SUB !SHOP_INVENTORY+1,X : PHX : TYX : STA $7EF300, X
 				CPX #$6C : BNE .notHeartContainers
 					CMP $7EF36D : !BGE .notHeartContainers : STA $7EF36D
 				.notHeartContainers
-				PLX : BRL .buy_real 
+				PLX : BRL .buy_real
 			+
 		 	BRL .cant_afford
 		.price_is_rupees
