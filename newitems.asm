@@ -327,13 +327,11 @@ AddReceivedItemExpandedGetItem:
 		BRL .done
 	+ CMP.b #$65 : BNE + ; Progressive Bow
 		BRL .done
-	+ CMP.b #$69 : BNE + ; Gold Power Star
-		BRA .multi_collect
+	+ CMP.b #$69 : BEQ .multi_collect ; Gold Power Star
 	+ CMP.b #$6A : BNE + ; Triforce
 		JSL.l ActivateGoal
 		BRL .done
-	+ CMP.b #$6B : BNE + ; Silver Power Star
-		BRA .multi_collect
+	+ CMP.b #$6B : BEQ .multi_collect ; Silver Power Star
 	+ CMP.b #$6C : BNE + ; Triforce Piece
 		.multi_collect
 		REP #$20
