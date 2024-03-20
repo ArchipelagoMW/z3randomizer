@@ -253,9 +253,15 @@ IncrementSmallKeysNoPrimary:
 RTL
 ;--------------------------------------------------------------------------------
 DecrementSmallKeys:
-	LDA.b $30EFFE : BNE + ; if reusable small keys, do not decrement
-		STA $7EF36F ; thing we wrote over, write small key count
+	PHA : PHP
+    SEP #$20
+	LDA ReusableSmallKeys : BNE + ; if reusable small keys, do not decrement
+	    PLP : PLA
+	    STA $7EF36F ; write small key count
+		BRA ++
 	+
+	PLP : PLA
+	++
 	JSL.l UpdateKeys
 RTL
 ;--------------------------------------------------------------------------------
