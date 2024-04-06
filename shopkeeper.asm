@@ -700,7 +700,7 @@ Shopkeeper_BuyItem:
 			LDA !SHOP_INVENTORY+2, X : AND.b #$07 ; if bit 80, it's custom, if numbers 0-7, custom resource
 				; store shop index, get resource offset (X), load val, pop shop index, cmp val to shop_price...
 				PHX : TAX : LDA ResourceOffset, X : TAX : TAY : LDA $7EF300, X ; fumble around with our resource value and price, sub value then put back into RAM
-				PLX : CMP !SHOP_INVENTORY+1,X : BMI + ; if resource is less than value, skip
+				PLX : CMP !SHOP_INVENTORY+1,X : BCC + ; if resource is less than value, skip
 				; If hearts, ensure hearts are greater than the price
 				BNE .notEqual : CPY #$6D : BEQ .cant_afford
 				.notEqual
